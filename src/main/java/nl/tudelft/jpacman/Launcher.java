@@ -3,7 +3,9 @@ package nl.tudelft.jpacman;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Direction;
@@ -129,43 +131,51 @@ public class Launcher {
 	 */
 	protected void addSinglePlayerKeys(final PacManUiBuilder builder,
 			final Game game) {
-		final Player p1 = getSinglePlayer(game);
+		final Player p1 = getSinglePlayer(game).get(0);
 
-		builder.addKey(KeyEvent.VK_UP, new Action() {
+		Map<Integer, Direction> bindingPlayer1 = new HashMap<Integer, Direction>(){{
+			put(KeyEvent.VK_UP, Direction.NORTH);
+			put(KeyEvent.VK_LEFT, Direction.WEST);
+			put(KeyEvent.VK_RIGHT, Direction.EAST);
+			put(KeyEvent.VK_DOWN, Direction.SOUTH);
+		}};
 
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.NORTH);
-			}
-		}).addKey(KeyEvent.VK_DOWN, new Action() {
+		bindKeys(builder, game, p1, bindingPlayer1);
 
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.SOUTH);
-			}
-		}).addKey(KeyEvent.VK_LEFT, new Action() {
+		if(getSinglePlayer(game).size() > 1)
+		{
+			Player p2 = getSinglePlayer(game).get(1);
 
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.WEST);
-			}
-		}).addKey(KeyEvent.VK_RIGHT, new Action() {
+			Map<Integer, Direction> bindingPlayer2 = new HashMap<Integer, Direction>(){{
+				put(KeyEvent.VK_Z, Direction.NORTH);
+				put(KeyEvent.VK_Q, Direction.WEST);
+				put(KeyEvent.VK_D, Direction.EAST);
+				put(KeyEvent.VK_S, Direction.SOUTH);
+			}};
 
-			@Override
-			public void doAction() {
-				game.move(p1, Direction.EAST);
-			}
-		});
-
+			bindKeys(builder, game, p2, bindingPlayer2);
+		}
 	}
 
-	private Player getSinglePlayer(final Game game) {
+
+	private void bindKeys(final PacManUiBuilder builder, final Game game, Player p, Map<Integer, Direction> binding){
+		for (Map.Entry <Integer, Direction> entry :binding.entrySet()) {
+			builder.addKey(entry.getKey(), new Action() {
+				@Override
+				public void doAction() {
+					game.move(p, entry.getValue());
+				}
+			});
+		}
+	}
+
+	private List<Player> getSinglePlayer(final Game game) {
 		List<Player> players = game.getPlayers();
 		if (players.isEmpty()) {
 			throw new IllegalArgumentException("Game has 0 players.");
 		}
-		final Player p1 = players.get(0);
-		return p1;
+		final List<Player> p = players;
+		return p;
 	}
 
 	/**
