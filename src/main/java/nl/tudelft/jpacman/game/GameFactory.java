@@ -33,7 +33,17 @@ public class GameFactory {
 	 * @return A new single player game.
 	 */
 	public Game createSinglePlayerGame(Level level) {
-		//return new SinglePlayerGame(playerFact.createPacMan(), level);
+		return new SinglePlayerGame(playerFact.createPacMan(), level);
+	}
+
+	/**
+	 * Creates a game for a single level with one player.
+	 *
+	 * @param level
+	 *            The level to create a game for.
+	 * @return A new single player game.
+	 */
+	public Game createTwoPlayersGame(Level level) {
 		return new TwoPlayersGame(playerFact.createPacMan(), playerFact.createPacMan(), level);
 	}
 
