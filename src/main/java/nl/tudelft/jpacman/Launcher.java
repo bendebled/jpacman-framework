@@ -129,9 +129,8 @@ public class Launcher {
 	 * @param game
 	 *            The game that will process the events.
 	 */
-	protected void addSinglePlayerKeys(final PacManUiBuilder builder,
-			final Game game) {
-		final Player p1 = getSinglePlayer(game).get(0);
+	protected void addPlayersKeys(final PacManUiBuilder builder, final Game game) {
+		final Player p1 = getPlayers(game).get(0);
 
 		Map<Integer, Direction> bindingPlayer1 = new HashMap<Integer, Direction>(){{
 			put(KeyEvent.VK_UP, Direction.NORTH);
@@ -142,9 +141,9 @@ public class Launcher {
 
 		bindKeys(builder, game, p1, bindingPlayer1);
 
-		if(getSinglePlayer(game).size() > 1)
+		if(getPlayers(game).size() > 1)
 		{
-			Player p2 = getSinglePlayer(game).get(1);
+			Player p2 = getPlayers(game).get(1);
 
 			Map<Integer, Direction> bindingPlayer2 = new HashMap<Integer, Direction>(){{
 				put(KeyEvent.VK_Z, Direction.NORTH);
@@ -157,6 +156,14 @@ public class Launcher {
 		}
 	}
 
+	private List<Player> getPlayers(final Game game) {
+		List<Player> players = game.getPlayers();
+		if (players.isEmpty()) {
+			throw new IllegalArgumentException("Game has 0 players.");
+		}
+		final List<Player> p = players;
+		return p;
+	}
 
 	private void bindKeys(final PacManUiBuilder builder, final Game game, Player p, Map<Integer, Direction> binding){
 		for (Map.Entry <Integer, Direction> entry :binding.entrySet()) {
@@ -169,22 +176,13 @@ public class Launcher {
 		}
 	}
 
-	private List<Player> getSinglePlayer(final Game game) {
-		List<Player> players = game.getPlayers();
-		if (players.isEmpty()) {
-			throw new IllegalArgumentException("Game has 0 players.");
-		}
-		final List<Player> p = players;
-		return p;
-	}
-
 	/**
 	 * Creates and starts a JPac-Man game.
 	 */
 	public void launch() {
 		game = makeGame();
 		PacManUiBuilder builder = new PacManUiBuilder().withDefaultButtons();
-		addSinglePlayerKeys(builder, game);
+		addPlayersKeys(builder, game);
 		pacManUI = builder.build(game);
 		pacManUI.start();
 	}
