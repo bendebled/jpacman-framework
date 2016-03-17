@@ -81,8 +81,14 @@ public class PacManUI extends JFrame {
 
 		JPanel buttonPanel = new ButtonPanel(buttons, this);
 
-		//scorePanel = new ScorePanel(game.getPlayers());
-		scorePanel = new ScorePanel(new ArrayList<PacManPlayer>());
+		ArrayList<PacManPlayer> pacManPlayers = new ArrayList<>();
+		for(Player p:game.getPlayers()){
+			if (p instanceof PacManPlayer) {
+				pacManPlayers.add((PacManPlayer)p);
+			}
+		}
+
+		scorePanel = new ScorePanel(pacManPlayers);
 		if (sf != null) {
 			scorePanel.setScoreFormatter(sf);
 		}
