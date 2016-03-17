@@ -7,7 +7,7 @@ import java.util.Random;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
-import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.level.PacManPlayer;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -106,7 +106,7 @@ public class Inky extends Ghost {
 			return d;
 		}
 
-		Unit player = Navigation.findNearest(Player.class, getSquare());
+		Unit player = Navigation.findNearest(PacManPlayer.class, getSquare());
 		if (player == null) {
 			Direction d = randomMove();
 			return d;

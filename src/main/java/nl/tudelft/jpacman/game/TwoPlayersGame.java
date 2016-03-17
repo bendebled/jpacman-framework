@@ -2,8 +2,11 @@ package nl.tudelft.jpacman.game;
 
 import com.google.common.collect.ImmutableList;
 import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.level.PacManPlayer;
 import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import java.util.List;
 
@@ -17,8 +20,8 @@ public class TwoPlayersGame extends Game {
 	/**
 	 * The player of this game.
 	 */
-	private final Player player1;
-	private final Player player2;
+	private final PacManPlayer player1;
+	private final GhostPlayer player2;
 
 	/**
 	 * The level of this game.
@@ -35,7 +38,7 @@ public class TwoPlayersGame extends Game {
 	 * @param l
 	 *            The level.
 	 */
-	protected TwoPlayersGame(Player p1, Player p2, Level l) {
+	protected TwoPlayersGame(PacManPlayer p1, GhostPlayer p2, Level l) {
 		assert p1 != null;
 		assert p2 != null;
 		assert l != null;
@@ -44,7 +47,7 @@ public class TwoPlayersGame extends Game {
 		this.player2 = p2;
 		this.level = l;
 		level.registerPlayer(p1);
-		level.registerPlayer(p2);
+		//level.registerPlayer(p2);
 	}
 
 	@Override

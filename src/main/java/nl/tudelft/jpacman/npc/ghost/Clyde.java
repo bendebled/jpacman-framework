@@ -7,7 +7,7 @@ import java.util.Random;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.level.Player;
+import nl.tudelft.jpacman.level.PacManPlayer;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -103,7 +103,7 @@ public class Clyde extends Ghost {
 	 */
 	@Override
 	public Direction nextMove() {
-		Square target = Navigation.findNearest(Player.class, getSquare())
+		Square target = Navigation.findNearest(PacManPlayer.class, getSquare())
 				.getSquare();
 		if (target == null) {
 			return randomMove();

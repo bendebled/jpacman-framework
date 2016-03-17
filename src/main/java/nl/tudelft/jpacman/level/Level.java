@@ -63,7 +63,7 @@ public class Level {
 	/**
 	 * The players on this level.
 	 */
-	private final List<Player> players;
+	private final List<PacManPlayer> players;
 
 	/**
 	 * The table of possible collisions between units.
@@ -137,7 +137,7 @@ public class Level {
 	 * @param p
 	 *            The player to register.
 	 */
-	public void registerPlayer(Player p) {
+	public void registerPlayer(PacManPlayer p) {
 		assert p != null;
 		assert !startSquares.isEmpty();
 
@@ -279,7 +279,7 @@ public class Level {
 	 *         alive.
 	 */
 	public boolean isAnyPlayerAlive() {
-		for (Player p : players) {
+		for (PacManPlayer p : players) {
 			if (p.isAlive()) {
 				return true;
 			}

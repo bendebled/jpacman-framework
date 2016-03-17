@@ -29,8 +29,17 @@ public class PlayerFactory {
 	 * 
 	 * @return A new player.
 	 */
-	public Player createPacMan() {
-		return new Player(sprites.getPacmanSprites(),
+	public PacManPlayer createPacMan() {
+		return new PacManPlayer(sprites.getPacmanSprites(),
 				sprites.getPacManDeathAnimation());
+	}
+
+	/**
+	 * Creates a new player with the classic Pac-Man sprites.
+	 *
+	 * @return A new player.
+	 */
+	public GhostPlayer createGhostPlayer() {
+		return new GhostPlayer(sprites.getPacmanSprites());
 	}
 }

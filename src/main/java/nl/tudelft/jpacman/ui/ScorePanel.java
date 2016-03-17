@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import nl.tudelft.jpacman.level.PacManPlayer;
 import nl.tudelft.jpacman.level.Player;
 
 /**
@@ -27,7 +28,7 @@ public class ScorePanel extends JPanel {
 	/**
 	 * The map of players and the labels their scores are on.
 	 */
-	private final Map<Player, JLabel> scoreLabels;
+	private final Map<PacManPlayer, JLabel> scoreLabels;
 	
 	/**
 	 * The default way in which the score is shown.
@@ -36,7 +37,7 @@ public class ScorePanel extends JPanel {
 			// this lambda breaks cobertura 2.7 ...
 			// player) -> String.format("Score: %3d", player.getScore());
 			new ScoreFormatter() {
-				public String format(Player p) {
+				public String format(PacManPlayer p) {
 					return String.format("Score: %3d", p.getScore());
 				}
 			};
@@ -52,7 +53,7 @@ public class ScorePanel extends JPanel {
 	 * @param players
 	 *            The players to display the scores of.
 	 */
-	public ScorePanel(List<Player> players) {
+	public ScorePanel(List<PacManPlayer> players) {
 		super();
 		assert players != null;
 
@@ -62,7 +63,7 @@ public class ScorePanel extends JPanel {
 			add(new JLabel("Player " + i, JLabel.CENTER));
 		}
 		scoreLabels = new LinkedHashMap<>();
-		for (Player p : players) {
+		for (PacManPlayer p : players) {
 			JLabel scoreLabel = new JLabel("0", JLabel.CENTER);
 			scoreLabels.put(p, scoreLabel);
 			add(scoreLabel);
@@ -73,7 +74,7 @@ public class ScorePanel extends JPanel {
 	 * Refreshes the scores of the players.
 	 */
 	protected void refresh() {
-		for (Player p : scoreLabels.keySet()) {
+		for (PacManPlayer p : scoreLabels.keySet()) {
 			String score = "";
 			if (!p.isAlive()) {
 				score = "You died. ";
@@ -93,7 +94,7 @@ public class ScorePanel extends JPanel {
 		 * @param p The player and its score
 		 * @return Formatted score.
 		 */
-		String format(Player p);
+		String format(PacManPlayer p);
 	}
 	
 	/**

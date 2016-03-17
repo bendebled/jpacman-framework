@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -11,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.level.PacManPlayer;
+import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
 /**
@@ -78,7 +81,8 @@ public class PacManUI extends JFrame {
 
 		JPanel buttonPanel = new ButtonPanel(buttons, this);
 
-		scorePanel = new ScorePanel(game.getPlayers());
+		//scorePanel = new ScorePanel(game.getPlayers());
+		scorePanel = new ScorePanel(new ArrayList<PacManPlayer>());
 		if (sf != null) {
 			scorePanel.setScoreFormatter(sf);
 		}
