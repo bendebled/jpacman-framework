@@ -88,7 +88,10 @@ public class ScorePanel extends JPanel {
 			else if (p instanceof GhostPlayer){
 				GhostPlayer p2 = (GhostPlayer) p;
 				if (p2.isWon()) {
-					score = "You win !";
+					score = "Ghost Player, you win !";
+				}
+				else{
+					score = "Ghost Player";
 				}
 				scoreLabels.get(p).setText(score);
 			}
