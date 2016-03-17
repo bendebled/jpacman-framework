@@ -47,7 +47,7 @@ public class TwoPlayersGame extends Game {
 		this.player2 = p2;
 		this.level = l;
 		level.registerPlayer(p1);
-		//level.registerPlayer(p2);
+		level.registerPlayer(p2);
 	}
 
 	@Override

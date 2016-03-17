@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.level;
 
+import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 
 /**
@@ -40,6 +41,6 @@ public class PlayerFactory {
 	 * @return A new player.
 	 */
 	public GhostPlayer createGhostPlayer() {
-		return new GhostPlayer(sprites.getPacmanSprites());
+		return new GhostPlayer(sprites.getGhostSprite(GhostColor.CYAN));
 	}
 }
