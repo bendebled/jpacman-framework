@@ -13,8 +13,11 @@ import java.util.Map;
  */
 public class GhostPlayer extends Player {
 
+	private Map<Direction, Sprite> sprites;
+
 	GhostPlayer(Map<Direction, Sprite> spriteMap) {
-		super(spriteMap);
+		super();
+		this.sprites = spriteMap;
 	}
 
 	boolean won = false;
@@ -25,5 +28,10 @@ public class GhostPlayer extends Player {
 
 	public void setWon(boolean won) {
 		this.won = won;
+	}
+
+	@Override
+	public Sprite getSprite() {
+		return sprites.get(getDirection());
 	}
 }

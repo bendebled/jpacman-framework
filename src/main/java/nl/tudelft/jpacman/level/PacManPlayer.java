@@ -29,6 +29,9 @@ public class PacManPlayer extends Player {
 	 */
 	private boolean alive;
 
+	private Map<Direction, Sprite> sprites;
+
+
 	/**
 	 * Creates a new player with a score of 0 points.
 	 *
@@ -38,11 +41,12 @@ public class PacManPlayer extends Player {
 	 *            The sprite to be shown when this player dies.
 	 */
 	PacManPlayer(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
-		super(spriteMap);
+		super();
 		this.score = 0;
 		this.alive = true;
 		this.deathSprite = deathAnimation;
 		deathSprite.setAnimating(false);
+		this.sprites = spriteMap;
 	}
 
 	/**
@@ -82,7 +86,7 @@ public class PacManPlayer extends Player {
 	@Override
 	public Sprite getSprite() {
 		if (isAlive()) {
-			super.getSprite();
+			return sprites.get(getDirection());
 		}
 		return deathSprite;
 	}
@@ -97,4 +101,5 @@ public class PacManPlayer extends Player {
 	public void addPoints(int points) {
 		score += points;
 	}
+
 }
