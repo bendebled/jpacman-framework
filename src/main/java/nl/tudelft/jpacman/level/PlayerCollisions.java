@@ -25,6 +25,9 @@ public class PlayerCollisions implements CollisionMap {
 		else if (mover instanceof Ghost) {
 			ghostColliding((Ghost) mover, collidedOn);
 		}
+		else if (mover instanceof GhostPlayer) {
+			ghostPlayerColliding((GhostPlayer) mover, collidedOn);
+		}
 	}
 	
 	private void playerColliding(PacManPlayer player, Unit collidedOn) {
@@ -42,8 +45,14 @@ public class PlayerCollisions implements CollisionMap {
 			playerVersusGhost((PacManPlayer) collidedOn, ghost);
 		}
 	}
-	
-	
+
+	private void ghostPlayerColliding(GhostPlayer ghostPlayer, Unit collidedOn) {
+		if (collidedOn instanceof PacManPlayer) {
+			((PacManPlayer) collidedOn).setAlive(false);
+			ghostPlayer.setWon(true);
+		}
+	}
+
 	/**
 	 * Actual case of player bumping into ghost or vice versa.
      *
