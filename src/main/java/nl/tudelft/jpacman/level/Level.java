@@ -1,9 +1,6 @@
 package nl.tudelft.jpacman.level;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -86,6 +83,10 @@ public class Level {
 	 */
 	private final List<LevelObserver> observers;
 
+	private Direction autoDirection;
+	private Unit autoUnit;
+	private Timer timer = new Timer();
+
 	/**
 	 * Creates a new level for the board.
 	 * 
@@ -120,6 +121,13 @@ public class Level {
 		this.players = new ArrayList<>();
 		this.collisions = collisionMap;
 		this.observers = new ArrayList<>();
+
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				moveTimer();
+			}
+		}, 200, 200);
 	}
 
 	/**
@@ -201,12 +209,28 @@ public class Level {
 	/**
 	 * Moves the unit into the given direction if possible and handles all
 	 * collisions.
-	 * 
-	 * @param unit
-	 *            The unit to move.
-	 * @param direction
-	 *            The direction to move the unit in.
 	 */
+	public void moveTimer() {
+		System.out.println("a");
+		if(autoUnit != null && autoDirection != null && isInProgress()) {
+			synchronized (moveLock) {
+				System.out.println("a");
+				Square location = autoUnit.getSquare();
+				Square destination = location.getSquareAt(autoDirection);
+
+				if (destination.isAccessibleTo(autoUnit)) {
+					autoUnit.setDirection(autoDirection);
+					List<Unit> occupants = destination.getOccupants();
+					autoUnit.occupy(destination);
+					for (Unit occupant : occupants) {
+						collisions.collide(autoUnit, occupant);
+					}
+					updateObservers();
+				}
+			}
+		}
+	}
+
 	public void move(Unit unit, Direction direction) {
 		assert unit != null;
 		assert direction != null;
@@ -216,18 +240,16 @@ public class Level {
 		}
 
 		synchronized (moveLock) {
-			unit.setDirection(direction);
+
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
 
+			System.out.println("--------------------------");
+
 			if (destination.isAccessibleTo(unit)) {
-				List<Unit> occupants = destination.getOccupants();
-				unit.occupy(destination);
-				for (Unit occupant : occupants) {
-					collisions.collide(unit, occupant);
-				}
+				autoDirection = direction;
+				autoUnit = unit;
 			}
-			updateObservers();
 		}
 	}
 
