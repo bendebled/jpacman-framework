@@ -55,7 +55,7 @@ public class Level {
 	/**
 	 * The start current selected starting square.
 	 */
-	private int startPacManSquareIndex;
+	private int startPacManSquareIndex = 0;
 
 	/**
 	 * The squares from which players can start this game.
@@ -65,7 +65,7 @@ public class Level {
 	/**
 	 * The start current selected starting square.
 	 */
-	private int startGhostSquareIndex;
+	private int startGhostSquareIndex = 0;
 
 
 	/**
@@ -164,6 +164,8 @@ public class Level {
 
 	public void registerPacManPlayer(Player p) {
 		registerPlayer(p, startPacManSquares, startPacManSquareIndex);
+		startPacManSquareIndex++;
+		startPacManSquareIndex %= startPacManSquares.size();
 	}
 
 	/**
@@ -176,6 +178,8 @@ public class Level {
 	 */
 	public void registerGhostPlayer(Player p) {
 		registerPlayer(p, startGhostSquares, startGhostSquareIndex);
+		startGhostSquareIndex++;
+		startGhostSquareIndex %= startGhostSquares.size();
 	}
 
 	/**
@@ -190,7 +194,7 @@ public class Level {
 	 * @param squareIndex
 	 *            the index of the list
 	 */
-	private void registerPlayer(Player p, List<Square> squareList, int squareIndex){
+	private void registerPlayer(Player p, List<Square> squareList, Integer squareIndex){
 		assert p != null;
 		assert !squareList.isEmpty();
 
@@ -200,8 +204,6 @@ public class Level {
 		players.add(p);
 		Square square = squareList.get(squareIndex);
 		p.occupy(square);
-		squareIndex++;
-		squareIndex %= squareList.size();
 	}
 
 	/**
