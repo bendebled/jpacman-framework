@@ -43,6 +43,16 @@ public class LevelTest {
 	private final Square square2 = mock(Square.class);
 
 	/**
+	 * Starting position 1 Ghost.
+	 */
+	private final Square square3 = mock(Square.class);
+
+	/**
+	 * Starting position 2 Ghost.
+	 */
+	private final Square square4 = mock(Square.class);
+
+	/**
 	 * The board for this level.
 	 */
 	private final Board board = mock(Board.class);
@@ -60,7 +70,7 @@ public class LevelTest {
 	public void setUp() {
 		final long defaultInterval = 100L;
 		level = new Level(board, Lists.newArrayList(ghost), Lists.newArrayList(
-				square1, square2), Lists.newArrayList(), collisions);
+				square1, square2), Lists.newArrayList(square3, square4), collisions);
 		when(ghost.getInterval()).thenReturn(defaultInterval);
 	}
 
@@ -153,4 +163,62 @@ public class LevelTest {
 		level.registerPacManPlayer(p3);
 		verify(p3).occupy(square1);
 	}
+
+
+	/* Lets do some test on the ghost player */
+
+	/**
+	 * Verifies registering a ghost player puts the player on the correct starting
+	 * square.
+	 */
+	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
+	public void registerGhostPlayer() {
+		GhostPlayer p = mock(GhostPlayer.class);
+		level.registerGhostPlayer(p);
+		verify(p).occupy(square3);
+	}
+
+	/**
+	 * Verifies registering a player twice does not do anything.
+	 */
+	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
+	public void registerGhostPlayerTwice() {
+		GhostPlayer p = mock(GhostPlayer.class);
+		level.registerGhostPlayer(p);
+		level.registerGhostPlayer(p);
+		verify(p, times(1)).occupy(square3);
+	}
+
+	/**
+	 * Verifies registering a second player puts that player on the correct
+	 * starting square.
+	 */
+	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
+	public void registerSecondGhostPlayer() {
+		GhostPlayer p1 = mock(GhostPlayer.class);
+		GhostPlayer p2 = mock(GhostPlayer.class);
+		level.registerGhostPlayer(p1);
+		level.registerGhostPlayer(p2);
+		verify(p2).occupy(square4);
+	}
+
+	/**
+	 * Verifies registering a third player puts the player on the correct
+	 * starting square.
+	 */
+	@Test
+	@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
+	public void registerThirdGhostPlayer() {
+		GhostPlayer p1 = mock(GhostPlayer.class);
+		GhostPlayer p2 = mock(GhostPlayer.class);
+		GhostPlayer p3 = mock(GhostPlayer.class);
+		level.registerGhostPlayer(p1);
+		level.registerGhostPlayer(p2);
+		level.registerGhostPlayer(p3);
+		verify(p3).occupy(square3);
+	}
+
 }
