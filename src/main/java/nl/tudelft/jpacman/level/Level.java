@@ -83,8 +83,7 @@ public class Level {
 	 */
 	private final List<LevelObserver> observers;
 
-	private Direction autoDirection;
-	private Unit autoUnit;
+	private Map<Unit, Direction> directionMap = new HashMap<Unit, Direction>();
 	private Timer timer = new Timer();
 
 	/**
@@ -220,19 +219,21 @@ public class Level {
 	 * collisions.
 	 */
 	public void moveTimer() {
-		if(autoUnit != null && autoDirection != null && isInProgress()) {
-			synchronized (moveLock) {
-				Square location = autoUnit.getSquare();
-				Square destination = location.getSquareAt(autoDirection);
+		if(!directionMap.isEmpty() && isInProgress()) {
+			for (Map.Entry <Unit, Direction> entry :directionMap.entrySet()) {
+				synchronized (moveLock) {
+					Square location = entry.getKey().getSquare();
+					Square destination = location.getSquareAt(entry.getValue());
 
-				if (destination.isAccessibleTo(autoUnit)) {
-					autoUnit.setDirection(autoDirection);
-					List<Unit> occupants = destination.getOccupants();
-					autoUnit.occupy(destination);
-					for (Unit occupant : occupants) {
-						collisions.collide(autoUnit, occupant);
+					if (destination.isAccessibleTo(entry.getKey())) {
+						entry.getKey().setDirection(entry.getValue());
+						List<Unit> occupants = destination.getOccupants();
+						entry.getKey().occupy(destination);
+						for (Unit occupant : occupants) {
+							collisions.collide(entry.getKey(), occupant);
+						}
+						updateObservers();
 					}
-					updateObservers();
 				}
 			}
 		}
@@ -252,8 +253,7 @@ public class Level {
 			Square destination = location.getSquareAt(direction);
 
 			if (destination.isAccessibleTo(unit)) {
-				autoDirection = direction;
-				autoUnit = unit;
+				directionMap.put(unit, direction);
 			}
 		}
 	}
