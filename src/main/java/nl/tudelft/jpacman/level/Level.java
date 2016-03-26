@@ -53,12 +53,23 @@ public class Level {
 	/**
 	 * The squares from which players can start this game.
 	 */
-	private final List<Square> startSquares;
+	private final List<Square> startPacManSquares;
 
 	/**
 	 * The start current selected starting square.
 	 */
-	private int startSquareIndex;
+	private int startPacManSquareIndex;
+
+	/**
+	 * The squares from which players can start this game.
+	 */
+	private final List<Square> startGhostSquares;
+
+	/**
+	 * The start current selected starting square.
+	 */
+	private int startGhostSquareIndex;
+
 
 	/**
 	 * The players on this level.
@@ -82,16 +93,19 @@ public class Level {
 	 *            The board for the level.
 	 * @param ghosts
 	 *            The ghosts on the board.
-	 * @param startPositions
-	 *            The squares on which players start on this board.
+	 * @param startPacManPositions
+	 *            The squares on which pacman players start on this board.
+	 * @param startGhostPositions
+	 *            The squares on which ghost players start on this board.
 	 * @param collisionMap
 	 *            The collection of collisions that should be handled.
 	 */
-	public Level(Board b, List<NPC> ghosts, List<Square> startPositions,
+	public Level(Board b, List<NPC> ghosts, List<Square> startPacManPositions, List<Square> startGhostPositions,
 			CollisionMap collisionMap) {
 		assert b != null;
 		assert ghosts != null;
-		assert startPositions != null;
+		assert startPacManPositions != null;
+		assert startGhostPositions != null;
 
 		this.board = b;
 		this.inProgress = false;
@@ -99,8 +113,10 @@ public class Level {
 		for (NPC g : ghosts) {
 			npcs.put(g, null);
 		}
-		this.startSquares = startPositions;
-		this.startSquareIndex = 0;
+		this.startPacManSquares = startPacManPositions;
+		this.startPacManSquareIndex = 0;
+		this.startGhostSquares = startGhostPositions;
+		this.startGhostSquareIndex = 0;
 		this.players = new ArrayList<>();
 		this.collisions = collisionMap;
 		this.observers = new ArrayList<>();
@@ -130,25 +146,47 @@ public class Level {
 	}
 
 	/**
-	 * Registers a player on this level, assigning him to a starting position. A
+	 * Registers a pacman player on this level, assigning him to a starting position. A
 	 * player can only be registered once, registering a player again will have
 	 * no effect.
 	 * 
 	 * @param p
 	 *            The player to register.
 	 */
-	public void registerPlayer(Player p) {
+	public void registerPacManPlayer(Player p) {
 		assert p != null;
-		assert !startSquares.isEmpty();
+		assert !startPacManSquares.isEmpty();
 
 		if (players.contains(p)) {
 			return;
 		}
 		players.add(p);
-		Square square = startSquares.get(startSquareIndex);
+		Square square = startPacManSquares.get(startPacManSquareIndex);
 		p.occupy(square);
-		startSquareIndex++;
-		startSquareIndex %= startSquares.size();
+		startPacManSquareIndex++;
+		startPacManSquareIndex %= startPacManSquares.size();
+	}
+
+	/**
+	 * Registers a ghost player on this level, assigning him to a starting position. A
+	 * player can only be registered once, registering a player again will have
+	 * no effect.
+	 *
+	 * @param p
+	 *            The player to register.
+	 */
+	public void registerGhostPlayer(Player p) {
+		assert p != null;
+		assert !startGhostSquares.isEmpty();
+
+		if (players.contains(p)) {
+			return;
+		}
+		players.add(p);
+		Square square = startGhostSquares.get(startGhostSquareIndex);
+		p.occupy(square);
+		startGhostSquareIndex++;
+		startGhostSquareIndex %= startGhostSquares.size();
 	}
 
 	/**

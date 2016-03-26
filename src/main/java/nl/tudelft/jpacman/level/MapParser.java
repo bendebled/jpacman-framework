@@ -11,6 +11,7 @@ import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.npc.NPC;
 
 /**
@@ -67,26 +68,27 @@ public class MapParser {
 		Square[][] grid = new Square[width][height];
 
 		List<NPC> ghosts = new ArrayList<>();
-		List<Square> startPositions = new ArrayList<>();
+		List<Square> startPacManPositions = new ArrayList<>();
+		List<Square> startGhostPositions = new ArrayList<>();
 
-		makeGrid(map, width, height, grid, ghosts, startPositions);
+		makeGrid(map, width, height, grid, ghosts, startPacManPositions, startGhostPositions);
 		
 		Board board = boardCreator.createBoard(grid);
-		return levelCreator.createLevel(board, ghosts, startPositions);
+		return levelCreator.createLevel(board, ghosts, startPacManPositions, startGhostPositions);
 	}
 
 	private void makeGrid(char[][] map, int width, int height,
-			Square[][] grid, List<NPC> ghosts, List<Square> startPositions) {
+			Square[][] grid, List<NPC> ghosts, List<Square> startPacManPositions, List<Square> startGhostPositions) {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				char c = map[x][y];
-				addSquare(grid, ghosts, startPositions, x, y, c);
+				addSquare(grid, ghosts, startPacManPositions, startGhostPositions, x, y, c);
 			}
 		}
 	}
 
 	private void addSquare(Square[][] grid, List<NPC> ghosts,
-			List<Square> startPositions, int x, int y, char c) {
+			List<Square> startPacManPositions, List<Square> startGhostPositions, int x, int y, char c) {
 		switch (c) {
 		case ' ':
 			grid[x][y] = boardCreator.createGround();
@@ -101,12 +103,19 @@ public class MapParser {
 			break;
 		case 'G':
 			Square ghostSquare = makeGhostSquare(ghosts);
-			grid[x][y] = ghostSquare;
+			if (ghostSquare != null) {
+				grid[x][y] = ghostSquare;
+			}
+			else{
+				Square playerSquare = boardCreator.createGround();
+				grid[x][y] = playerSquare;
+				startGhostPositions.add(playerSquare);
+			}
 			break;
 		case 'P':
 			Square playerSquare = boardCreator.createGround();
 			grid[x][y] = playerSquare;
-			startPositions.add(playerSquare);
+			startPacManPositions.add(playerSquare);
 			break;
 		default:
 			throw new PacmanConfigurationException("Invalid character at "
@@ -117,9 +126,14 @@ public class MapParser {
 	private Square makeGhostSquare(List<NPC> ghosts) {
 		Square ghostSquare = boardCreator.createGround();
 		NPC ghost = levelCreator.createGhost();
-		ghosts.add(ghost);
-		ghost.occupy(ghostSquare);
-		return ghostSquare;
+		if (ghost != null){
+			ghosts.add(ghost);
+			ghost.occupy(ghostSquare);
+			return ghostSquare;
+		}
+		else{
+			return null;
+		}
 	}
 
 	/**

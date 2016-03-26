@@ -25,6 +25,7 @@ public class LevelFactory {
 	private static final int INKY = 1;
 	private static final int PINKY = 2;
 	private static final int CLYDE = 3;
+	private int ghostplayer = 1;
 
 	/**
 	 * The default value of a pellet.
@@ -67,17 +68,17 @@ public class LevelFactory {
 	 *            The board with all ghosts and pellets occupying their squares.
 	 * @param ghosts
 	 *            A list of all ghosts on the board.
-	 * @param startPositions
+	 * @param startPacManPositions
 	 *            A list of squares from which players may start the game.
 	 * @return A new level for the board.
 	 */
 	public Level createLevel(Board board, List<NPC> ghosts,
-			List<Square> startPositions) {
+			List<Square> startPacManPositions, List<Square> startGhostPositions) {
 
 		// We'll adopt the simple collision map for now.
 		CollisionMap collisionMap = new PlayerCollisions();
-		
-		return new Level(board, ghosts, startPositions, collisionMap);
+
+		return new Level(board, ghosts, startPacManPositions, startGhostPositions, collisionMap);
 	}
 
 	/**
@@ -88,6 +89,9 @@ public class LevelFactory {
 	NPC createGhost() {
 		ghostIndex++;
 		ghostIndex %= GHOSTS;
+		if (ghostIndex == ghostplayer){
+			return null;
+		}
 		switch (ghostIndex) {
 		case BLINKY:
 			return ghostFact.createBlinky();

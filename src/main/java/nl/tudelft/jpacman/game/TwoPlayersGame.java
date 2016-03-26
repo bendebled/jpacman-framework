@@ -6,7 +6,6 @@ import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.PacManPlayer;
 import nl.tudelft.jpacman.level.Player;
-import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 import java.util.List;
 
@@ -46,8 +45,8 @@ public class TwoPlayersGame extends Game {
 		this.player1 = p1;
 		this.player2 = p2;
 		this.level = l;
-		level.registerPlayer(p1);
-		level.registerPlayer(p2);
+		level.registerPacManPlayer(p1);
+		level.registerGhostPlayer(p2);
 	}
 
 	@Override
