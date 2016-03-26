@@ -161,18 +161,9 @@ public class Level {
 	 * @param p
 	 *            The player to register.
 	 */
-	public void registerPacManPlayer(Player p) {
-		assert p != null;
-		assert !startPacManSquares.isEmpty();
 
-		if (players.contains(p)) {
-			return;
-		}
-		players.add(p);
-		Square square = startPacManSquares.get(startPacManSquareIndex);
-		p.occupy(square);
-		startPacManSquareIndex++;
-		startPacManSquareIndex %= startPacManSquares.size();
+	public void registerPacManPlayer(Player p) {
+		registerPlayer(p, startPacManSquares, startPacManSquareIndex);
 	}
 
 	/**
@@ -184,17 +175,33 @@ public class Level {
 	 *            The player to register.
 	 */
 	public void registerGhostPlayer(Player p) {
+		registerPlayer(p, startGhostSquares, startGhostSquareIndex);
+	}
+
+	/**
+	 * Registers a player on this level, assigning him to a starting position. A
+	 * player can only be registered once, registering a player again will have
+	 * no effect.
+	 *
+	 * @param p
+	 *            The player to register.
+	 * @param squareList
+	 *            the list where the start player goes
+	 * @param squareIndex
+	 *            the index of the list
+	 */
+	private void registerPlayer(Player p, List<Square> squareList, int squareIndex){
 		assert p != null;
-		assert !startGhostSquares.isEmpty();
+		assert !squareList.isEmpty();
 
 		if (players.contains(p)) {
 			return;
 		}
 		players.add(p);
-		Square square = startGhostSquares.get(startGhostSquareIndex);
+		Square square = squareList.get(squareIndex);
 		p.occupy(square);
-		startGhostSquareIndex++;
-		startGhostSquareIndex %= startGhostSquares.size();
+		squareIndex++;
+		squareIndex %= squareList.size();
 	}
 
 	/**
@@ -211,10 +218,8 @@ public class Level {
 	 * collisions.
 	 */
 	public void moveTimer() {
-		System.out.println("a");
 		if(autoUnit != null && autoDirection != null && isInProgress()) {
 			synchronized (moveLock) {
-				System.out.println("a");
 				Square location = autoUnit.getSquare();
 				Square destination = location.getSquareAt(autoDirection);
 
@@ -243,8 +248,6 @@ public class Level {
 
 			Square location = unit.getSquare();
 			Square destination = location.getSquareAt(direction);
-
-			System.out.println("--------------------------");
 
 			if (destination.isAccessibleTo(unit)) {
 				autoDirection = direction;
