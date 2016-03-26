@@ -62,7 +62,6 @@ public class LauncherSmokeTest {
     public void smokeTest() throws InterruptedException {
         Game game = launcher.getGame();        
         PacManPlayer player = (PacManPlayer)game.getPlayers().get(0);
-        GhostPlayer ghostPlayer = (GhostPlayer)game.getPlayers().get(1);
 
         // start cleanly.
         assertFalse(game.isInProgress());
@@ -85,17 +84,20 @@ public class LauncherSmokeTest {
         Thread.sleep(3000);
         assertEquals(120, player.getScore());
 
-        // ghost player will kill pacman
-        game.move(ghostPlayer, Direction.EAST);
-        Thread.sleep(1000);
-        game.move(ghostPlayer, Direction.SOUTH);
-        Thread.sleep(400);
-        game.move(ghostPlayer, Direction.EAST);
-        Thread.sleep(400);
-        game.move(ghostPlayer, Direction.SOUTH);
-        Thread.sleep(2000);
-        assertFalse(player.isAlive());
 
+        if(game.getPlayers().size() > 1) {
+            GhostPlayer ghostPlayer = (GhostPlayer)game.getPlayers().get(1);
+            // ghost player will kill pacman
+            game.move(ghostPlayer, Direction.EAST);
+            Thread.sleep(1000);
+            game.move(ghostPlayer, Direction.SOUTH);
+            Thread.sleep(400);
+            game.move(ghostPlayer, Direction.EAST);
+            Thread.sleep(400);
+            game.move(ghostPlayer, Direction.SOUTH);
+            Thread.sleep(2000);
+            assertFalse(player.isAlive());
+        }
         game.stop();
         assertFalse(game.isInProgress());
      }
