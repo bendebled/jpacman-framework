@@ -34,6 +34,10 @@ public class PlayerCollisions implements CollisionMap {
 		if (collidedOn instanceof Ghost) {
 			playerVersusGhost(player, (Ghost) collidedOn);
 		}
+
+		if (collidedOn instanceof GhostPlayer) {
+			playerVersusGhostPlayer(player, (GhostPlayer) collidedOn);
+		}
 		
 		if (collidedOn instanceof Pellet) {
 			playerVersusPellet(player, (Pellet) collidedOn);
@@ -62,7 +66,18 @@ public class PlayerCollisions implements CollisionMap {
 	public void playerVersusGhost(PacManPlayer player, Ghost ghost) {
 		player.setAlive(false);
 	}
-	
+
+	/**
+	 * Actual case of player bumping into ghostplayer or vice versa.
+	 *
+	 * @param player The player involved in the collision.
+	 * @param ghostPlayer The ghostPlayer involved in the collision.
+	 */
+	public void playerVersusGhostPlayer(PacManPlayer player, GhostPlayer ghostPlayer) {
+		player.setAlive(false);
+		ghostPlayer.setWon(true);
+	}
+
 	/**
 	 * Actual case of player consuming a pellet.
      *
