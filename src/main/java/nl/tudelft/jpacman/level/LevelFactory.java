@@ -25,7 +25,6 @@ public class LevelFactory {
 	private static final int INKY = 1;
 	private static final int PINKY = 2;
 	private static final int CLYDE = 3;
-	private int ghostplayer = 1;
 
 	/**
 	 * The default value of a pellet.
@@ -89,9 +88,6 @@ public class LevelFactory {
 	NPC createGhost() {
 		ghostIndex++;
 		ghostIndex %= GHOSTS;
-		if (ghostIndex == ghostplayer){
-			return null;
-		}
 		switch (ghostIndex) {
 		case BLINKY:
 			return ghostFact.createBlinky();

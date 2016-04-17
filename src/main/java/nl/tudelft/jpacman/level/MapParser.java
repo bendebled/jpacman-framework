@@ -13,6 +13,8 @@ import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Inky;
+import nl.tudelft.jpacman.npc.ghost.Pinky;
 
 /**
  * Creates new {@link Level}s from text representations.
@@ -102,15 +104,16 @@ public class MapParser {
 			levelCreator.createPellet().occupy(pelletSquare);
 			break;
 		case 'G':
-			Square ghostSquare = makeGhostSquare(ghosts);
-			if (ghostSquare != null) {
-				grid[x][y] = ghostSquare;
+			Square square = boardCreator.createGround();
+			NPC ghost = levelCreator.createGhost();
+			if (ghost.getClass() != Inky.class){
+				ghosts.add(ghost);
+				ghost.occupy(square);
 			}
 			else{
-				Square playerSquare = boardCreator.createGround();
-				grid[x][y] = playerSquare;
-				startGhostPositions.add(playerSquare);
+				startGhostPositions.add(square);
 			}
+			grid[x][y] = square;
 			break;
 		case 'P':
 			Square playerSquare = boardCreator.createGround();
@@ -120,19 +123,6 @@ public class MapParser {
 		default:
 			throw new PacmanConfigurationException("Invalid character at "
 					+ x + "," + y + ": " + c);
-		}
-	}
-
-	private Square makeGhostSquare(List<NPC> ghosts) {
-		Square ghostSquare = boardCreator.createGround();
-		NPC ghost = levelCreator.createGhost();
-		if (ghost != null){
-			ghosts.add(ghost);
-			ghost.occupy(ghostSquare);
-			return ghostSquare;
-		}
-		else{
-			return null;
 		}
 	}
 
