@@ -36,7 +36,7 @@ public class PlayerFactory {
 	}
 
 	/**
-	 * Creates a new player with the classic Pac-Man sprites.
+	 * Creates a new player with Ghost sprites.
 	 *
 	 * @return A new player.
 	 */

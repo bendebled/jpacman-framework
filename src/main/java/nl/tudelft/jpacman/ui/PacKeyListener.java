@@ -3,8 +3,6 @@ package nl.tudelft.jpacman.ui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A key listener based on a set of keyCode-action pairs.

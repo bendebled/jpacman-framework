@@ -37,7 +37,7 @@ public class GameFactory {
 	}
 
 	/**
-	 * Creates a game for a single level with one player.
+	 * Creates a game for a single level with two players : PacMan and Ghost players.
 	 *
 	 * @param level
 	 *            The level to create a game for.
