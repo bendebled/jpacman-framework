@@ -15,12 +15,12 @@ public class GhostPlayer extends Player {
 
 	private Map<Direction, Sprite> sprites;
 
+	boolean won = false;
+
 	GhostPlayer(Map<Direction, Sprite> spriteMap) {
 		super();
 		this.sprites = spriteMap;
 	}
-
-	boolean won = false;
 
 	public boolean isWon() {
 		return won;

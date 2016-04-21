@@ -133,12 +133,11 @@ public class Launcher {
 	protected void addPlayersKeys(final PacManUiBuilder builder, final Game game) {
 		final Player p1 = getPlayers(game).get(0);
 
-		Map<Integer, Direction> bindingPlayer1 = new HashMap<Integer, Direction>(){{
-			put(KeyEvent.VK_UP, Direction.NORTH);
-			put(KeyEvent.VK_LEFT, Direction.WEST);
-			put(KeyEvent.VK_RIGHT, Direction.EAST);
-			put(KeyEvent.VK_DOWN, Direction.SOUTH);
-		}};
+		Map<Integer, Direction> bindingPlayer1 = new HashMap<>();
+		bindingPlayer1.put(KeyEvent.VK_UP, Direction.NORTH);
+		bindingPlayer1.put(KeyEvent.VK_LEFT, Direction.WEST);
+		bindingPlayer1.put(KeyEvent.VK_RIGHT, Direction.EAST);
+		bindingPlayer1.put(KeyEvent.VK_DOWN, Direction.SOUTH);
 
 		bindKeys(builder, game, p1, bindingPlayer1);
 
@@ -146,12 +145,11 @@ public class Launcher {
 		{
 			Player p2 = getPlayers(game).get(1);
 
-			Map<Integer, Direction> bindingPlayer2 = new HashMap<Integer, Direction>(){{
-				put(KeyEvent.VK_Z, Direction.NORTH);
-				put(KeyEvent.VK_Q, Direction.WEST);
-				put(KeyEvent.VK_D, Direction.EAST);
-				put(KeyEvent.VK_S, Direction.SOUTH);
-			}};
+			Map<Integer, Direction> bindingPlayer2 = new HashMap<>();
+			bindingPlayer2.put(KeyEvent.VK_Z, Direction.NORTH);
+			bindingPlayer2.put(KeyEvent.VK_Q, Direction.WEST);
+			bindingPlayer2.put(KeyEvent.VK_D, Direction.EAST);
+			bindingPlayer2.put(KeyEvent.VK_S, Direction.SOUTH);
 
 			bindKeys(builder, game, p2, bindingPlayer2);
 		}

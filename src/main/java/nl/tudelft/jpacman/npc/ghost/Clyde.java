@@ -41,6 +41,8 @@ import nl.tudelft.jpacman.sprite.Sprite;
  */
 public class Clyde extends Ghost {
 
+
+
 	/**
 	 * The amount of cells Clyde wants to stay away from Pac Man.
 	 */
@@ -62,12 +64,6 @@ public class Clyde extends Ghost {
 	 */
 	private static final Map<Direction, Direction> OPPOSITES = new EnumMap<Direction, Direction>(
 			Direction.class);
-	{
-		OPPOSITES.put(Direction.NORTH, Direction.SOUTH);
-		OPPOSITES.put(Direction.SOUTH, Direction.NORTH);
-		OPPOSITES.put(Direction.WEST, Direction.EAST);
-		OPPOSITES.put(Direction.EAST, Direction.WEST);
-	}
 
 	/**
 	 * Creates a new "Clyde", a.k.a. "Pokey".
@@ -77,6 +73,10 @@ public class Clyde extends Ghost {
 	 */
 	public Clyde(Map<Direction, Sprite> spriteMap) {
 		super(spriteMap);
+		OPPOSITES.put(Direction.NORTH, Direction.SOUTH);
+		OPPOSITES.put(Direction.SOUTH, Direction.NORTH);
+		OPPOSITES.put(Direction.WEST, Direction.EAST);
+		OPPOSITES.put(Direction.EAST, Direction.WEST);
 	}
 
 	@Override
