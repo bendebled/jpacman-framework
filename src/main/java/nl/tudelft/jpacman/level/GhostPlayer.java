@@ -1,7 +1,6 @@
 package nl.tudelft.jpacman.level;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 import java.util.Map;
@@ -15,7 +14,7 @@ public class GhostPlayer extends Player {
 
 	private Map<Direction, Sprite> sprites;
 
-	boolean won = false;
+	private boolean won = false;
 
 	GhostPlayer(Map<Direction, Sprite> spriteMap) {
 		super();

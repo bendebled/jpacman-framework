@@ -7,7 +7,6 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.PacManPlayer;
-import nl.tudelft.jpacman.level.Player;
 
 import org.junit.After;
 import org.junit.Before;
