@@ -6,87 +6,84 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
 /**
  * A simple implementation of a collision map for the JPacman player.
  * <p>
- * It uses a number of instanceof checks to implement the multiple dispatch for the 
+ * It uses a number of instanceof checks to implement the multiple dispatch for the
  * collisionmap. For more realistic collision maps, this approach will not scale,
  * and the recommended approach is to use a {@link CollisionInteractionMap}.
- * 
- * @author Arie van Deursen, 2014
  *
+ * @author Arie van Deursen, 2014
  */
 
 public class PlayerCollisions implements CollisionMap {
 
-	@Override
-	public void collide(Unit mover, Unit collidedOn) {
-		
-		if (mover instanceof PacManPlayer) {
-			playerColliding((PacManPlayer) mover, collidedOn);
-		}
-		else if (mover instanceof Ghost) {
-			ghostColliding((Ghost) mover, collidedOn);
-		}
-		else if (mover instanceof GhostPlayer) {
-			ghostPlayerColliding((GhostPlayer) mover, collidedOn);
-		}
-	}
-	
-	private void playerColliding(PacManPlayer player, Unit collidedOn) {
-		if (collidedOn instanceof Ghost) {
-			playerVersusGhost(player, (Ghost) collidedOn);
-		}
+    @Override
+    public void collide(Unit mover, Unit collidedOn) {
 
-		if (collidedOn instanceof GhostPlayer) {
-			playerVersusGhostPlayer(player, (GhostPlayer) collidedOn);
-		}
-		
-		if (collidedOn instanceof Pellet) {
-			playerVersusPellet(player, (Pellet) collidedOn);
-		}		
-	}
-	
-	private void ghostColliding(Ghost ghost, Unit collidedOn) {
-		if (collidedOn instanceof PacManPlayer) {
-			playerVersusGhost((PacManPlayer) collidedOn, ghost);
-		}
-	}
+        if (mover instanceof PacManPlayer) {
+            playerColliding((PacManPlayer) mover, collidedOn);
+        } else if (mover instanceof Ghost) {
+            ghostColliding((Ghost) mover, collidedOn);
+        } else if (mover instanceof GhostPlayer) {
+            ghostPlayerColliding((GhostPlayer) mover, collidedOn);
+        }
+    }
 
-	private void ghostPlayerColliding(GhostPlayer ghostPlayer, Unit collidedOn) {
-		if (collidedOn instanceof PacManPlayer) {
-			((PacManPlayer) collidedOn).setAlive(false);
-			ghostPlayer.setWon(true);
-		}
-	}
+    private void playerColliding(PacManPlayer player, Unit collidedOn) {
+        if (collidedOn instanceof Ghost) {
+            playerVersusGhost(player, (Ghost) collidedOn);
+        }
 
-	/**
-	 * Actual case of player bumping into ghost or vice versa.
+        if (collidedOn instanceof GhostPlayer) {
+            playerVersusGhostPlayer(player, (GhostPlayer) collidedOn);
+        }
+
+        if (collidedOn instanceof Pellet) {
+            playerVersusPellet(player, (Pellet) collidedOn);
+        }
+    }
+
+    private void ghostColliding(Ghost ghost, Unit collidedOn) {
+        if (collidedOn instanceof PacManPlayer) {
+            playerVersusGhost((PacManPlayer) collidedOn, ghost);
+        }
+    }
+
+    private void ghostPlayerColliding(GhostPlayer ghostPlayer, Unit collidedOn) {
+        if (collidedOn instanceof PacManPlayer) {
+            ((PacManPlayer) collidedOn).setAlive(false);
+            ghostPlayer.setWon(true);
+        }
+    }
+
+    /**
+     * Actual case of player bumping into ghost or vice versa.
      *
      * @param player The player involved in the collision.
-     * @param ghost The ghost involved in the collision.
-	 */
-	public void playerVersusGhost(PacManPlayer player, Ghost ghost) {
-		player.setAlive(false);
-	}
+     * @param ghost  The ghost involved in the collision.
+     */
+    public void playerVersusGhost(PacManPlayer player, Ghost ghost) {
+        player.setAlive(false);
+    }
 
-	/**
-	 * Actual case of player bumping into ghostplayer or vice versa.
-	 *
-	 * @param player The player involved in the collision.
-	 * @param ghostPlayer The ghostPlayer involved in the collision.
-	 */
-	public void playerVersusGhostPlayer(PacManPlayer player, GhostPlayer ghostPlayer) {
-		player.setAlive(false);
-		ghostPlayer.setWon(true);
-	}
+    /**
+     * Actual case of player bumping into ghostplayer or vice versa.
+     *
+     * @param player      The player involved in the collision.
+     * @param ghostPlayer The ghostPlayer involved in the collision.
+     */
+    public void playerVersusGhostPlayer(PacManPlayer player, GhostPlayer ghostPlayer) {
+        player.setAlive(false);
+        ghostPlayer.setWon(true);
+    }
 
-	/**
-	 * Actual case of player consuming a pellet.
+    /**
+     * Actual case of player consuming a pellet.
      *
      * @param player The player involved in the collision.
      * @param pellet The pellet involved in the collision.
-	 */
-	public void playerVersusPellet(PacManPlayer player, Pellet pellet) {
-		pellet.leaveSquare();
-		player.addPoints(pellet.getValue());		
-	}
+     */
+    public void playerVersusPellet(PacManPlayer player, Pellet pellet) {
+        pellet.leaveSquare();
+        player.addPoints(pellet.getValue());
+    }
 
 }

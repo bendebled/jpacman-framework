@@ -1,26 +1,24 @@
 package nl.tudelft.jpacman;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.level.GhostPlayer;
 import nl.tudelft.jpacman.level.PacManPlayer;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  * Smoke test launching the full game,
  * and attempting to make a number of typical moves.
- *
+ * <p>
  * This is <strong>not</strong> a <em>unit</em> test -- it is an end-to-end test
  * trying to execute a large portion of the system's behavior directly from the
  * user interface. It uses the actual sprites and monster AI, and hence
  * has little control over what is happening in the game.
- *
+ * <p>
  * Because it is an end-to-end test, it is somewhat longer
  * and has more assert statements than what would be good
  * for a small and focused <em>unit</em> test.
@@ -29,38 +27,38 @@ import org.junit.Test;
  */
 @SuppressWarnings("magicnumber")
 public class LauncherSmokeTest {
-	
-	private Launcher launcher;
-	
-	/**
-	 * Launch the user interface.
-	 */
-	@Before
-	public void setUpPacman() {
-		launcher = new Launcher();
-		launcher.launch();
-	}
-	
-	/**
-	 * Quit the user interface when we're done.
-	 */
-	@After
-	public void tearDown() {
-		launcher.dispose();
-	}
+
+    private Launcher launcher;
+
+    /**
+     * Launch the user interface.
+     */
+    @Before
+    public void setUpPacman() {
+        launcher = new Launcher();
+        launcher.launch();
+    }
+
+    /**
+     * Quit the user interface when we're done.
+     */
+    @After
+    public void tearDown() {
+        launcher.dispose();
+    }
 
     /**
      * Launch the game, and imitate what would happen in a typical game.
      * The test is only a smoke test, and not a focused small test.
      * Therefore it is OK that the method is a bit too long.
-     * 
+     *
      * @throws InterruptedException Since we're sleeping in this test.
      */
     @SuppressWarnings("methodlength")
     @Test
     public void smokeTest() throws InterruptedException {
-        Game game = launcher.getGame();        
-        PacManPlayer player = (PacManPlayer)game.getPlayers().get(0);
+        Game game = launcher.getGame();
+        PacManPlayer player = (PacManPlayer) game.getPlayers().get(0);
 
         // start cleanly.
         assertFalse(game.isInProgress());
@@ -84,8 +82,8 @@ public class LauncherSmokeTest {
         assertEquals(120, player.getScore());
 
 
-        if(game.getPlayers().size() > 1) {
-            GhostPlayer ghostPlayer = (GhostPlayer)game.getPlayers().get(1);
+        if (game.getPlayers().size() > 1) {
+            GhostPlayer ghostPlayer = (GhostPlayer) game.getPlayers().get(1);
             // ghost player will kill pacman
             game.move(ghostPlayer, Direction.EAST);
             Thread.sleep(1000);
@@ -99,5 +97,5 @@ public class LauncherSmokeTest {
         }
         game.stop();
         assertFalse(game.isInProgress());
-     }
+    }
 }
